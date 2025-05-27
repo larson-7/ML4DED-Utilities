@@ -15,8 +15,8 @@ print("Device:", DEVICE)
 predictor = SAM2VideoPredictor.from_pretrained("facebook/sam2-hiera-large").to(DEVICE)
 
 # Paths
-input_path = "/Users/jordanlarson/engineering/cs8903/DEDWallVideos_Cropped/buildplate000_5.mp4"
-output_dir = "/Users/jordanlarson/engineering/cs8903/DEDWallVideosSAM"
+input_path = "/home/jordan/omscs/ML4DED/data/DEDWallVideos_Cropped/buildplate000_5.mp4"
+output_dir = "/home/jordan/omscs/ML4DED/data/cs8903/DEDWallVideosSAM"
 output_file = "sam2_buildplate000_5.mp4"
 os.makedirs(output_dir, exist_ok=True)
 output_path = os.path.join(output_dir, output_file)
@@ -34,7 +34,7 @@ out = cv2.VideoWriter(output_path, fourcc, fps, (width, height), isColor=True)
 
 # Load video into predictor state
 with torch.inference_mode(), torch.autocast(DEVICE, dtype=torch.bfloat16):
-    state = predictor.init_state(input_path)
+    state = predictor.init_state(video_path=input_path, offload_video_to_cpu=True)
 
     # Add a box prompt on the center of the first frame (dummy example)
     center_x, center_y = width // 2, height // 2
@@ -43,7 +43,7 @@ with torch.inference_mode(), torch.autocast(DEVICE, dtype=torch.bfloat16):
                                 center_x + box_size, center_y + box_size]],
                               dtype=torch.float32, device=DEVICE)
 
-    frame_idx, object_ids, masks = predictor.add_new_points_or_box(state, input_boxes=box_prompt)
+    frame_idx, object_ids, masks = predictor.add_new_points_or_box(state, points=box_prompt)
 
     # Propagate masks across all frames
     frame_dict = {i: frame for i, frame in enumerate(state["frames"])}

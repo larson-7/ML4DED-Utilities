@@ -37,8 +37,8 @@ def crop_video_ffmpeg(input_path, output_path, crop_param):
     print(f"Cropped video saved to: {output_path}")
 
 if __name__ == "__main__":
-    input_video = "/Users/jordanlarson/engineering/cs8903/DEDWallVideos/buildplate000_5.mp4"
-    output_dir = "/Users/jordanlarson/engineering/cs8903/DEDWallVideos_Cropped"
+    input_video = "/home/jordan/omscs/ML4DED/data/DEDWallVideos/buildplate000_5.mp4"
+    output_dir = "/home/jordan/omscs/ML4DED/data/DEDWallVideos_Cropped"
     os.makedirs(output_dir, exist_ok=True)
     output_video = os.path.join(output_dir, "buildplate000_5.mp4")
     # Step 1: Detect crop parameters
