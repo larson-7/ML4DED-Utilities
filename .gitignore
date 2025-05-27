@@ -175,3 +175,5 @@ cython_debug/
 
 #all image/video data
 /data
+#any models for testing/using
+/deps
