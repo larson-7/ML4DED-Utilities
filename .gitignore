@@ -177,3 +177,5 @@ cython_debug/
 /data
 #any models for testing/using
 /deps
+# large model checkpoints
+/models
