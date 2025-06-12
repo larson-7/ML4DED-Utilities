@@ -49,7 +49,7 @@ for video in videos:
     print(f"Total frames in {video}:{total_frames}")
 
     frame_idx = 0
-    stride = 5
+    stride = int(round(fps * 0.1))
     while True:
         ret, frame = cap.read()
         if not ret:
@@ -59,7 +59,8 @@ for video in videos:
         if frame_idx % stride == 0:
             out_dir = os.path.join(frame_dir, video.replace(".mp4", ""))
             os.makedirs(out_dir, exist_ok=True)
-            cv2.imwrite(os.path.join(out_dir, f"{frame_idx:06d}.jpg"), frame)
+            time_sec = frame_idx / fps
+            cv2.imwrite(os.path.join(out_dir, f"{time_sec:.1f}.jpg"), frame)
         frame_idx += 1
 
 
